@@ -1,0 +1,45 @@
+Olá, já bem-vindo. Meu nome é Jessica, eu faço parte da equipe de MCData,
+e através desse vídeo, eu vou estar demonstrando como utilizar uma das
+ferramentas dentro da gestão de agenda, como, por exemplo, criar ou excluir uma
+agenda médica. O primeiro passo é criar um horário para o
+profissional. No canto superior esquerdo da tela, em pesquisar por módulos, vou
+pesquisar por profissionais. Nesta tela, vou selecionar o profissional no qual eu
+irei criar o horário. Em opções, vou selecionar os horários e aqui eu vou
+preencher conforme a agenda do médico. Vou selecionar o constório, a
+especialidade desse profissional. O dia da semana no qual ele irá fazer o atendimento,
+o horário inicial, o horário final e o tempo de atendimento.
+Feito isso, só vir aqui em adicionar. É possível estar adicionando quantos
+horários e dias forem precisos. Exemplo, suponhamos que, além da segunda
+feira, o médico irá atender também na quinta, porém só no período da tarde, das
+13 às 18, só que com o mesmo tempo de atendimento. Vem aqui e adicionar.
+Feito isso, eu venho em gravar. O próximo passo é criar a agenda.
+Também no canto superior esquerdo da tela, vamos pesquisar por criar, excluir e
+compartilhar a agenda. Em opções, criar a agenda, vou selecionar o profissional no
+qual eu criei um horário, a especialidade desse profissional e a data inicial e final,
+que essa agenda ficará disponível. Suponhamos que eu estou criando a agenda
+para apenas o mês de dezembro, vou colocar do dia 1 ao dia 31 e carregar
+datas. Aqui vai aparecer todos os horários disponíveis de dezembro, apenas
+segunda e quinta-feira, que é o qual foram os dias que criamos lá dentro do
+horário do profissional. No canto superior da tela, tem duas flags que podem ser
+selecionadas conforme a necessidade da clínica. A primeira flag habilita a
+agenda para marcação via aplicativo e a segunda flag habilita a agenda via
+central de agendamentos. Eu posso estar habilitando alguma dessas flags ou deixar
+da forma com que está. Depois de selecionado alguma das flags, ou não, é
+só vir em gravar. Vai aparecer um aviso para confirmar e outro aviso que a agenda
+foi criada com sucesso desde fechar esta tela. Sim, e prontinho, a agenda foi criada.
+Neste mesmo módulo, também é possível estar excluindo uma agenda, que é
+praticamente o mesmo processo de criar. No canto superior à esquerda,
+pesquisar novamente para criar, excluir e compartilhar uma agenda. E aqui em
+opções, eu vou em excluir a agenda. Vou estar selecionando o profissional, no
+qual vou estar fazendo a exclusão, a especialidade do mesmo e o período no
+qual eu vou excluir a data inicial e a data final e carregar datas. Vai aparecer
+todas as datas disponíveis. Eu posso estar selecionando uma a uma, caso eu queira
+pular alguma, ou posso vir em selecionar todas. Um detalhe bastante
+importante é esta flag. Caso essa flag não seja marcada, somente os horários
+livres serão excluídos. Ou seja, caso houver algum paciente agendado, os mesmos
+permanecerão na agenda. Agora, se eu marcar, todos os horários serão
+excluídos, incluindo os horários ocupados.
+Selecionando tudo, eu venho aqui em gravar. Apareceu novamente o aviso para
+confirmar e excluir. Mais uma vez, desejo fechar a tela assim e prontinho, a
+agenda foi excluída. Agradeço a atenção e, qualquer dúvida, a equipe de
+suporte estará à disposição.
