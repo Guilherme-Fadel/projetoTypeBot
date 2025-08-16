@@ -17,7 +17,11 @@ def responder():
     pergunta = (dados.get("pergunta") or "").strip()
 
     if not pergunta:
-        texto_resposta = "Desculpe, não entendi sua pergunta. Pode reformular?"
+        return Response(
+            "Desculpe, não entendi sua pergunta. Pode reformular?",
+            status=200,
+            mimetype="text/plain; charset=utf-8"
+        )
 
     contexto = buscar_texto(pergunta, base_conhecimento)
     prompt = montar_prompt(contexto, pergunta)
@@ -37,18 +41,15 @@ def responder():
             mimetype="text/plain; charset=utf-8"
         )
 
-    return jsonify({
-        "statusCode": 200,
-        "response": {
-            "resposta": texto_resposta
-        }
-    })
+    # 🚀 Retorno só com texto
+    return Response(
+        texto_resposta,
+        status=200,
+        mimetype="text/plain; charset=utf-8"
+    )
 
 
 def chamar_llama(prompt: str) -> str:
-    if not GROQ_API_KEY:
-        raise RuntimeError("GROQ_API_KEY não configurada")
-
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json",
