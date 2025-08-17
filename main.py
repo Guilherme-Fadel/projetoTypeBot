@@ -1,5 +1,5 @@
 from flask import Flask, request, Response, jsonify
-from embedding_utils import carregar_base, buscar_texto
+from embedding_utils import carregar_base, buscar_texto_e_imagem
 from llama_prompt import montar_prompt
 import requests
 
@@ -12,41 +12,29 @@ GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
 @app.route("/responder", methods=["POST"])
+@app.route("/responder", methods=["POST"])
 def responder():
     dados = request.get_json(silent=True) or {}
     pergunta = (dados.get("pergunta") or "").strip()
 
     if not pergunta:
-        return Response(
-            "Desculpe, não entendi sua pergunta. Pode reformular?",
-            status=200,
-            mimetype="text/plain; charset=utf-8"
-        )
+        return jsonify({"resposta": "Desculpe, não entendi sua pergunta."})
 
-    contexto = buscar_texto(pergunta, base_conhecimento)
+    melhor_texto, melhor_imagem = buscar_texto_e_imagem(
+        pergunta, base_conhecimento)
+
+    contexto = melhor_texto["texto"] if melhor_texto else ""
     prompt = montar_prompt(contexto, pergunta)
 
     try:
-        texto_resposta = chamar_llama(prompt)  # retorna só string
-    except requests.HTTPError as e:
-        return Response(
-            f"Erro HTTP ao chamar Groq: {e.response.status_code} - {e.response.text}",
-            status=502,
-            mimetype="text/plain; charset=utf-8"
-        )
+        resposta = chamar_llama(prompt)
     except Exception as e:
-        return Response(
-            f"Falha ao chamar Groq: {str(e)}",
-            status=502,
-            mimetype="text/plain; charset=utf-8"
-        )
+        return jsonify({"resposta": f"Erro ao chamar Llama: {str(e)}"})
 
-    # 🚀 Retorno só com texto
-    return Response(
-        texto_resposta,
-        status=200,
-        mimetype="text/plain; charset=utf-8"
-    )
+    return jsonify({
+        "resposta": resposta,
+        "imagem": melhor_imagem.get("imagem") if melhor_imagem else None
+    })
 
 
 def chamar_llama(prompt: str) -> str:

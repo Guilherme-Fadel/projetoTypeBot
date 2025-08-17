@@ -1,6 +1,6 @@
 def montar_prompt(contexto, pergunta):
     return f"""
-Você é um assistente técnico. Use o seguinte contexto para responder à pergunta do cliente:
+Você é um assistente técnico. Use o seguinte contexto e a imagem vinculada para responder à pergunta do cliente:
 
 Contexto:
 {contexto}
