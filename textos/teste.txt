@@ -1,1 +1,0 @@
-Para criar um horário você deve seguir os passo de buscar em módulos, o módulo de profissionais, selecionar o profissional e ir na opção de horário, incluir as informações necessárias, e clicar em gravar, após isso, esses horários poderão ser utilizados para criar uma agenda!

@@ -1,0 +1,17 @@
+A tela exibida é uma interface de login de um sistema chamado MKData MKSaúde. Ela apresenta os seguintes elementos:
+
+Um cabeçalho com o nome do sistema
+
+Um formulário central com dois campos de entrada:
+
+Um para o nome de usuário
+
+Outro para a senha
+
+Um link para recuperação de senha, posicionado ao lado do campo de senha
+
+Um botão para confirmar o login, identificado com o texto “Entrar”
+
+No canto inferior da tela, há uma indicação da versão do sistema: 25.05.14-17
+
+A estrutura sugere que se trata de um sistema voltado para a área da saúde, com foco em acesso seguro e direto. Se quiser, posso te ajudar a criar uma versão alternativa dessa tela ou sugerir melhorias na usabilidade.

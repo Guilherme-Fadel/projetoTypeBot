@@ -1,7 +1,12 @@
 [
   {
-    "nome": "criar_profissional.png",
+    "nome": "tela_de_profissional.png",
     "descricao": "Tela de cadastro de profissional com campos Conselho, Nome, Data de nascimento, Usuário, Senha, CPF, Sexo, Receitas e Grupo de usuário.",
-    "url": "https://drive.google.com/thumbnail?id=1VfZ8XZps8R9p5TIrPNh9IKxpoV5Cm1WT&"
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela_de_profissional.png"
+  },
+  {
+    "nome": "tela_de_login.png",
+    "descricao": "Tela de login, utilizada para realizar o login no sistema, utilizando usuário e senha, com a possibiliade de alterar a senha caso tenha esquecido a senha, essa alteração é configurada em parâmetros gerais, onde se pode realizar a configuração de tempo, método de recuperar senha, bloqueios, etc...",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela_de_login.png"
   }
 ]
