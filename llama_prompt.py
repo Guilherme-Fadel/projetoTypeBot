@@ -4,7 +4,8 @@ Você é um assistente técnico. Use o seguinte contexto e a imagem vinculada pa
 
 Contexto:
 {contexto}
-Responda à seguinte pergunta de forma clara, objetiva e sem mencionar nomes próprios ou dados pessoais:
+Responda à seguinte pergunta de forma clara, objetiva e sem mencionar nomes próprios ou dados pessoais, e corrigindo erros gramaticais e ortográficos,
+lembrando ao usuário que todas as informações são referentes a versões iguais ou superior a "25.05.14-17":
 Pergunta:
 {pergunta}
 """

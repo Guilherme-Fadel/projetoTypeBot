@@ -5,7 +5,7 @@ agenda médica. O primeiro passo é criar um horário para o
 profissional. No canto superior esquerdo da tela, em pesquisar por módulos, vou
 pesquisar por profissionais. Nesta tela, vou selecionar o profissional no qual eu
 irei criar o horário. Em opções, vou selecionar os horários e aqui eu vou
-preencher conforme a agenda do médico. Vou selecionar o constório, a
+preencher conforme a agenda do médico. Vou selecionar o consultório, a
 especialidade desse profissional. O dia da semana no qual ele irá fazer o atendimento,
 o horário inicial, o horário final e o tempo de atendimento.
 Feito isso, só vir aqui em adicionar. É possível estar adicionando quantos

@@ -12,7 +12,6 @@ GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
 @app.route("/responder", methods=["POST"])
-@app.route("/responder", methods=["POST"])
 def responder():
     dados = request.get_json(silent=True) or {}
     pergunta = (dados.get("pergunta") or "").strip()

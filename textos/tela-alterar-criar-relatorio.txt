@@ -1,0 +1,4 @@
+Essa é a subtela de cadastro de relatório, que é utilizada após o acesso a primeira tela, corresponde à interface de edição ou criação de relatórios no sistema MKData MKSaúde, onde o usuário pode configurar todos os detalhes de um relatório 
+específico, como o nome, o descritivo, o tipo (neste caso, “Relatório”), o arquivo associado (.FR3), o formato de saída e se o relatório está ativo, além de definir 
+parâmetros personalizados como data e consultórios, com base em instruções SQL, e também selecionar os perfis de acesso que terão permissão para visualizar ou executar 
+o relatório, sendo finalizada com os botões “Gravar” e “Cancelar” para salvar ou descartar as alterações feitas.

@@ -1,0 +1,3 @@
+A tela de módulos é a primeira tela após o login e seleção de consultório, nela nos podemos navegar pela barra da esquerda, e pesquisar os módulos
+onde queremos acessar, tal como, "Agenda Mkmed", "Profissionais", "Usuários", entre muitas outras telas.
+talbem na barra vertical direita, temos os logs de todos os acessos ao consultório.
