@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer, util
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 
-def carregar_base(pasta_textos="textos", arquivo_imagens="imagens.json"):
+def carregar_base(pasta_textos="data/textos", arquivo_imagens="data/imagens.json"):
     base = []
 
     # carrega textos
