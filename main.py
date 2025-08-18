@@ -23,7 +23,16 @@ def responder():
         pergunta, base_conhecimento)
 
     contexto = melhor_texto["texto"] if melhor_texto else ""
-    prompt = montar_prompt(contexto, pergunta)
+    imagem_url = melhor_imagem.get("imagem") if melhor_imagem else ""
+
+    descricao_visual = ""
+    if imagem_url:
+        try:
+            descricao_visual = chamar_llama_scout(pergunta, imagem_url)
+        except Exception as e:
+            descricao_visual = f"[Erro ao descrever imagem: {str(e)}]"
+
+    prompt = montar_prompt(contexto, pergunta, descricao_visual)
 
     try:
         resposta = chamar_llama(prompt)
@@ -53,6 +62,30 @@ def chamar_llama(prompt: str) -> str:
 
     response = requests.post(GROQ_URL, headers=headers,
                              json=payload, timeout=30)
+    response.raise_for_status()
+    data = response.json()
+    return str(data["choices"][0]["message"]["content"]).strip()
+
+def chamar_llama_scout(pergunta: str, imagem_url: str) -> str:
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "messages": [
+            {"role": "system", "content": "Você é um assistente visual que descreve imagens com precisão."},
+            {"role": "user", "content": pergunta}
+        ],
+        "temperature": 0.2,
+        "max_tokens": 512,
+        "tools": [],
+        "tool_choice": "auto",
+        "images": [imagem_url]  # URL da imagem compatível
+    }
+
+    response = requests.post(GROQ_URL, headers=headers, json=payload, timeout=30)
     response.raise_for_status()
     data = response.json()
     return str(data["choices"][0]["message"]["content"]).strip()
