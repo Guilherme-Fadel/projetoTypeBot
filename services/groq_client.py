@@ -34,7 +34,7 @@ def chamar_llama_scout(pergunta: str, imagem_url: str) -> str:
         ],
         "temperature": 0.2,
         "max_tokens": 512,
-        "images": [imagem_url]
+        "image": [imagem_url]
     }
     resp = session.post(GROQ_URL, json=payload, timeout=30)
     resp.raise_for_status()
