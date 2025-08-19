@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from utils.knowledge_base import buscar
 from services.groq_client import chamar_llama_scout
+from utils.prompt_utils import montar_prompt
+from services.groq_client import chamar_llama
 
 responder_bp = Blueprint("responder", __name__)
 
@@ -24,8 +26,11 @@ def responder():
         except Exception as e:
             descricao_visual = f"[Erro ao descrever imagem: {str(e)}]"
 
+    prompt_final = montar_prompt(contexto, pergunta, descricao_visual)
+    resposta_llama = chamar_llama(prompt_final)
+
     return jsonify({
-        "resposta": contexto,
-        "imagem": imagem_url,
-        "descricao_visual": descricao_visual
+    "resposta": resposta_llama,
+    "imagem": imagem_url,
+    "descricao_visual": descricao_visual
     })
