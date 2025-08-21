@@ -1,12 +1,4 @@
-1. Criar horários para o profissional:
-
-Acesse o módulo “Profissionais” e selecione o profissional desejado.
-
-Em “Opções”, vá em “Horários” e preencha: consultório, especialidade, dias da semana, horários e tempo de atendimento.
-
-Clique em Adicionar e depois em Gravar.
-
-2. Criar a agenda para profissionais:
+2. Criar a agenda:
 
 Acesse o módulo “Criar, excluir e compartilhar agenda”, selecione “Criar agenda”.
 
