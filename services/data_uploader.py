@@ -24,7 +24,6 @@ def update_description(file_url: str, file_name: str, file_description: str):
         nova_imagem = {
             "nome": file_name,
             "descricao": file_description,
-            # 👇 sempre usa a URL fixa
             "url": f"https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/{file_name}"
         }
         imagens.append(nova_imagem)
