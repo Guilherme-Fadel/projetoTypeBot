@@ -5,16 +5,13 @@ import logging
 from sentence_transformers import SentenceTransformer, util
 from dotenv import load_dotenv
 
-# 🔧 Configuração de logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-# 🔍 Carregando modelo de embeddings
 model = SentenceTransformer('all-mpnet-base-v2')
 
-# ☁️ Configurando cliente S3
 s3 = boto3.client(
     's3',
     aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
@@ -28,7 +25,6 @@ def carregar_base(pasta_textos="data/textos", bucket=None, key_imagens="images/i
 
     base = []
 
-    # 📄 Processando arquivos de texto
     for nome in os.listdir(pasta_textos):
         if nome.lower().endswith(".txt"):
             caminho = os.path.join(pasta_textos, nome)
@@ -43,7 +39,6 @@ def carregar_base(pasta_textos="data/textos", bucket=None, key_imagens="images/i
                 "embedding": emb
             })
 
-    # 🖼️ Processando imagens do S3
     try:
         file_obj = s3.get_object(Bucket=bucket, Key=key_imagens)
         imagens = json.loads(file_obj["Body"].read().decode("utf-8"))
