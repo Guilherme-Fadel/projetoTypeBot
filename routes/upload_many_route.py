@@ -9,11 +9,9 @@ def upload_many_to_s3():
     try:
         raw_data = request.get_data(as_text=True)
 
-        # Tenta carregar como JSON válido
         try:
             data = json.loads(raw_data)
         except json.JSONDecodeError:
-            # Se falhar, tenta corrigir manualmente
             if 'links' in raw_data:
                 # Extrai os links da string
                 prefix = '"links":'
