@@ -1,39 +1,124 @@
-from services.pdf_image_converter import converter_pdf_para_png
-from services.groq_client import chamar_llama_scout, chamar_llama
-from services.s3_uploader import upload_local_file_to_s3
-from urllib.parse import urlparse
-import os
+import fitz  # PyMuPDF
+import requests
+import json
+import re
+from services.groq_client import chamar_llama, chamar_llama_scout
 
-def analyze_file(url: str, filename: str) -> dict:
-    ext = filename.split('.')[-1].lower()
 
-    if ext == "pdf":
-        # Converte PDF em imagens PNG
-        caminho_pdf = url  # URL do PDF
-        imagens_png = converter_pdf_para_png(caminho_pdf)
+def extract_json(resposta: str):
+    """
+    Extrai JSON válido de uma resposta que pode estar embrulhada em texto ou blocos de código.
+    """
+    try:
+        # Procura um objeto JSON dentro da resposta
+        match = re.search(r"\{[\s\S]*\}", resposta)
+        if match:
+            clean_json = match.group(0)
+            return json.loads(clean_json)
 
-        descricoes = []
-        for i, caminho_png in enumerate(imagens_png):
-            nome_arquivo = os.path.basename(caminho_png)
-            s3_key = f"temp-uploads/{nome_arquivo}"
-            url_s3 = upload_local_file_to_s3(caminho_png, s3_key)
+        # Se já for JSON puro
+        return json.loads(resposta)
+    except Exception as e:
+        print(f"[ERRO extract_json] → {e}")
+        return None
 
-            pergunta = f"Descreva o conteúdo da página {i+1} do documento '{filename}'."
-            resposta = chamar_llama_scout(pergunta, url_s3)
-            descricoes.append(f"Página {i+1}: {resposta}")
 
+def analyze_pdf(url, filename):
+    """
+    Faz o download de um PDF, extrai texto e envia para o LLM resumir em JSON.
+    """
+    response = requests.get(url)
+    response.raise_for_status()
+
+    # Abre o PDF
+    with open("temp.pdf", "wb") as f:
+        f.write(response.content)
+
+    texto = ""
+    with fitz.open("temp.pdf") as doc:
+        for page in doc:
+            texto += page.get_text()
+
+    prompt = f"""
+Você é um analisador de documentos. Leia o texto abaixo e retorne SOMENTE um JSON válido no seguinte formato:
+
+{{
+  "description": "Resumo geral do documento",
+  "tópicos": [
+    {{
+      "name": "Nome do tópico",
+      "description": "Descrição curta",
+      "content": "Conteúdo relevante resumido"
+    }}
+  ]
+}}
+
+Texto do PDF:
+\"\"\"{texto}\"\"\"
+"""
+
+    resposta = chamar_llama(prompt)
+    json_resp = extract_json(resposta)
+
+    if json_resp:
         return {
             "filename": filename,
             "type": "pdf",
-            "description": "\n".join(descricoes)
+            "description": json_resp.get("description", ""),
+            "tópicos": json_resp.get("tópicos", []),
+        }
+    else:
+        return {
+            "filename": filename,
+            "type": "pdf",
+            "description": texto[:500],  # fallback
+            "tópicos": [],
         }
 
-    else:
-        # Para imagens ou outros arquivos já públicos
-        pergunta = f"Analise o conteúdo do arquivo '{filename}' disponível em: {url}"
-        resposta = chamar_llama(pergunta)
+
+def analyze_image(url, filename):
+    """
+    Envia a imagem para o LLM descrever e extrair informações em JSON.
+    """
+    prompt = """
+Você é um analisador de imagens de sistemas. Descreva a imagem e retorne SOMENTE um JSON válido no formato:
+
+{
+  "description": "Descrição geral da imagem",
+  "tópicos": [
+    {
+      "name": "Nome da seção",
+      "description": "Descrição curta",
+      "content": "Conteúdo detalhado ou resumo do que aparece"
+    }
+  ]
+}
+"""
+
+    resposta = chamar_llama_scout(prompt, url)
+    json_resp = extract_json(resposta)
+
+    if json_resp:
         return {
             "filename": filename,
             "type": "imagem",
-            "description": resposta
+            "description": json_resp.get("description", ""),
+            "tópicos": json_resp.get("tópicos", []),
         }
+    else:
+        return {
+            "filename": filename,
+            "type": "imagem",
+            "description": resposta,
+            "tópicos": [],
+        }
+
+
+def analyze_file(url, filename):
+    """
+    Detecta se o arquivo é PDF ou imagem e chama o analisador correspondente.
+    """
+    if filename.lower().endswith(".pdf"):
+        return analyze_pdf(url, filename)
+    else:
+        return analyze_image(url, filename)

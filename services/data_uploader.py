@@ -23,9 +23,11 @@ def update_description(file_url: str, file_name: str, file_description: str):
 
         nova_imagem = {
             "nome": file_name,
-            "descricao": file_description,
+            "descricao": file_description if isinstance(file_description, str) else file_description.get("description", ""),
+            "topicos": file_description.get("tópicos", []) if isinstance(file_description, dict) else [],
             "url": f"https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/{file_name}"
-        }
+}
+
         imagens.append(nova_imagem)
 
         s3.put_object(

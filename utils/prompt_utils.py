@@ -23,7 +23,7 @@ Quando aplicável, **estruture a resposta em formato de passo a passo**, com lin
 
 ---
 
-Com base nas informações acima, gere uma resposta completa e contextualizada, **sem incluir dados confidenciais, pessoais ou sensíveis**.
+Com base nas informações acima, gere uma resposta completa e contextualizada, **sem incluir dados confidenciais, pessoais ou sensíveis**, não crie informações.
 
 Ao final da resposta, inclua sempre um **diagrama textual simples** com o caminho entre as telas acessadas, usando o formato:  
 **Tela de Módulos → [Nome do módulo] → [Subseção ou ação]**

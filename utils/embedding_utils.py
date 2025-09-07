@@ -45,7 +45,10 @@ def carregar_base(pasta_textos="data/textos", bucket=None, key_imagens="images/i
         for item in imagens:
             descricao = item.get("descricao", "")
             url = item.get("url", "")
-            emb = model.encode(descricao, convert_to_tensor=True, normalize_embeddings=True)
+            emb = model.encode(descricao, convert_to_tensor=True, normalize_embeddings=True) 
+                #convert_to_tensor retorna como um tensor do Pytorch
+                #normalize_embeddings normaliza o vetor para unitario, possibilitando a utilização de similaridade por cosseno.
+
             base.append({
                 "tipo": "imagem",
                 "arquivo": item.get("nome"),
