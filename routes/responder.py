@@ -14,9 +14,9 @@ def responder():
     if not pergunta:
         return jsonify({"resposta": "Desculpe, não entendi sua pergunta."})
 
-    melhor_texto, melhor_imagem = buscar(pergunta)
+    melhor_imagem = buscar(pergunta)
 
-    contexto = melhor_texto["texto"] if melhor_texto else ""
+    contexto = melhor_imagem.get("descrição") if melhor_imagem else ""
     imagem_url = melhor_imagem.get("imagem") if melhor_imagem else ""
 
     descricao_visual = ""

@@ -1,4 +1,0 @@
-Essa é a primeira tela de cadastro de relatório apresenta uma interface voltada para o gerenciamento e criação de relatórios diversos, onde é possível visualizar uma lista organizada onde cada 
-relatório da lista acompanha por informações como grupo, status de exportação, status de atividade e ID, além de botões para alterar ou excluir os registros, permitindo 
-ao usuário administrar relatórios relacionados a agendamentos, atendimentos médicos, exames, estatísticas, estoque e finanças de forma centralizada e eficiente.
-Essa é a unica tela onde se pode acessar para cadastrar relatórios, não é possível em outras telas.
