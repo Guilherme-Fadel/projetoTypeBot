@@ -77,9 +77,6 @@ Texto do PDF:
 
 
 def analyze_image(url, filename):
-    """
-    Envia a imagem para o LLM descrever e extrair informações em JSON.
-    """
     prompt = """
 Você é um analisador de imagens de sistemas. Descreva a imagem e retorne SOMENTE um JSON válido no formato:
 

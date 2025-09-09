@@ -3,7 +3,7 @@ import json
 import os
 import boto3
 
-def update_description(file_url: str, file_name: str, file_description: str):
+def update_description(file_url: str, file_name: str, analysis: str):
     try:
         s3 = boto3.client(
             's3',
@@ -23,8 +23,8 @@ def update_description(file_url: str, file_name: str, file_description: str):
 
         nova_imagem = {
             "nome": file_name,
-            "descricao": file_description if isinstance(file_description, str) else file_description.get("description", ""),
-            "topicos": file_description.get("tópicos", []) if isinstance(file_description, dict) else [],
+            "descricao": analysis.get("description", ""),
+            "tópicos": analysis.get("tópicos", []),
             "url": f"https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/{file_name}"
 }
 
