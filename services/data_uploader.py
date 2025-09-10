@@ -1,4 +1,3 @@
-import requests
 import json
 import os
 import boto3
@@ -25,8 +24,8 @@ def update_description(file_url: str, file_name: str, analysis: str):
             "nome": file_name,
             "descricao": analysis.get("description", ""),
             "tópicos": analysis.get("tópicos", []),
-            "url": f"https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/{file_name}"
-}
+            "url": f"https://{bucket}.s3.amazonaws.com/{file_name}"
+        }
 
         imagens.append(nova_imagem)
 
@@ -42,3 +41,10 @@ def update_description(file_url: str, file_name: str, analysis: str):
 
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+def ordenar_topico(topico):
+    return {
+        "name": topico.get("name", ""),
+        "description": topico.get("description", ""),
+        "content": topico.get("content", "")
+    }

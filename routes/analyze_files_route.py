@@ -27,8 +27,6 @@ def analyze_files():
         analysis = analyze_file(url, filename)
         print(f"[ANÁLISE] {filename} →", analysis)
 
-        update_description(url, filename, analysis)
-
         results.append(analysis)
 
     return jsonify({"links": results}), 200

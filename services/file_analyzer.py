@@ -49,6 +49,7 @@ Regras:
 
 - Priorize termos funcionais e de negócio em vez de apenas layout.
 - Sempre cite explicitamente se houver elementos de relatórios, cadastros, login, parâmetros, etc.
+- A ordenação dos tópicos deve seguir a disposição visual na imagem, de cima para baixo e da esquerda para a direita. Seguindo assim, o padrão de "name", "description" e "content".
 
 Formato de saída:
 {{
@@ -103,6 +104,7 @@ Regras:
 
 - Priorize termos funcionais e de negócio em vez de apenas layout.
 - Sempre cite explicitamente se houver elementos de relatórios, cadastros, login, parâmetros, etc.
+- A ordenação dos tópicos deve seguir a disposição visual na imagem, de cima para baixo e da esquerda para a direita. Seguindo assim, o padrão de "name", "description" e "content".
 
 Formato de saída:
 {{
