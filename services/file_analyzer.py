@@ -6,17 +6,14 @@ from services.groq_client import chamar_llama, chamar_llama_scout
 
 
 def extract_json(resposta: str):
-    """
-    Extrai JSON válido de uma resposta que pode estar embrulhada em texto ou blocos de código.
-    """
+
     try:
-        # Procura um objeto JSON dentro da resposta
         match = re.search(r"\{[\s\S]*\}", resposta)
         if match:
             clean_json = match.group(0)
             return json.loads(clean_json)
 
-        # Se já for JSON puro
+        #Se já for JSON puro
         return json.loads(resposta)
     except Exception as e:
         print(f"[ERRO extract_json] → {e}")
@@ -24,13 +21,10 @@ def extract_json(resposta: str):
 
 
 def analyze_pdf(url, filename):
-    """
-    Faz o download de um PDF, extrai texto e envia para o LLM resumir em JSON.
-    """
+
     response = requests.get(url)
     response.raise_for_status()
 
-    # Abre o PDF
     with open("temp.pdf", "wb") as f:
         f.write(response.content)
 
@@ -40,22 +34,38 @@ def analyze_pdf(url, filename):
             texto += page.get_text()
 
     prompt = f"""
-Você é um analisador de documentos. Leia o texto abaixo e retorne SOMENTE um JSON válido no seguinte formato:
+Você é um analisador de documentos e telas de sistemas. 
+Sua função é extrair informações para um mecanismo de busca semântica.
 
+Regras:
+- Responda SOMENTE com um JSON válido.
+- O campo "description" deve conter um resumo completo, citando os termos importantes 
+  (como 'relatório', 'cadastro', 'usuário', 'login', etc.), 
+  e a localização dos elementos visuais (menus, botões, campos, tabelas).
+- O campo "tópicos" deve ser uma lista de áreas relevantes da tela/documento, cada uma com:
+  - "name": título curto e objetivo (máx. 5 palavras).
+  - "description": frase resumida.
+  - "content": explicação detalhada do que aparece (ex.: nomes de botões, colunas, ícones, textos). Não cite os dados indicados na imagem, somente utilize-os como base para descrever os elementos visuais.
+
+- Priorize termos funcionais e de negócio em vez de apenas layout.
+- Sempre cite explicitamente se houver elementos de relatórios, cadastros, login, parâmetros, etc.
+
+Formato de saída:
 {{
-  "description": "Resumo geral do documento",
+  "description": "...",
   "tópicos": [
     {{
-      "name": "Nome do tópico",
-      "description": "Descrição curta",
-      "content": "Conteúdo relevante resumido"
+      "name": "...",
+      "description": "...",
+      "content": "..."
     }}
   ]
 }}
 
-Texto do PDF:
+Texto do PDF/tela:
 \"\"\"{texto}\"\"\"
 """
+
 
     resposta = chamar_llama(prompt)
     json_resp = extract_json(resposta)
@@ -77,20 +87,36 @@ Texto do PDF:
 
 
 def analyze_image(url, filename):
-    prompt = """
-Você é um analisador de imagens de sistemas. Descreva a imagem e retorne SOMENTE um JSON válido no formato:
+    prompt = f"""
+Você é um analisador de documentos e telas de sistemas. 
+Sua função é extrair informações para um mecanismo de busca semântica.
 
-{
-  "description": "Descrição geral da imagem",
+Regras:
+- Responda SOMENTE com um JSON válido.
+- O campo "description" deve conter um resumo completo, citando os termos importantes 
+  (como 'relatório', 'cadastro', 'usuário', 'login', etc.), 
+  e a localização dos elementos visuais (menus, botões, campos, tabelas).
+- O campo "tópicos" deve ser uma lista de áreas relevantes da tela/documento, cada uma com:
+  - "name": título curto e objetivo (máx. 5 palavras).
+  - "description": frase resumida.
+  - "content": explicação detalhada do que aparece (ex.: nomes de botões, colunas, ícones, textos). Não cite os dados indicados na imagem, somente utilize-os como base para descrever os elementos visuais.
+
+- Priorize termos funcionais e de negócio em vez de apenas layout.
+- Sempre cite explicitamente se houver elementos de relatórios, cadastros, login, parâmetros, etc.
+
+Formato de saída:
+{{
+  "description": "...",
   "tópicos": [
-    {
-      "name": "Nome da seção",
-      "description": "Descrição curta",
-      "content": "Conteúdo detalhado ou resumo do que aparece"
-    }
+    {{
+      "name": "...",
+      "description": "...",
+      "content": "..."
+    }}
   ]
-}
+}}
 """
+
 
     resposta = chamar_llama_scout(prompt, url)
     json_resp = extract_json(resposta)
@@ -112,9 +138,6 @@ Você é um analisador de imagens de sistemas. Descreva a imagem e retorne SOMEN
 
 
 def analyze_file(url, filename):
-    """
-    Detecta se o arquivo é PDF ou imagem e chama o analisador correspondente.
-    """
     if filename.lower().endswith(".pdf"):
         return analyze_pdf(url, filename)
     else:

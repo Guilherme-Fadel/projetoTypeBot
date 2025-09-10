@@ -27,7 +27,6 @@ def analyze_files():
         analysis = analyze_file(url, filename)
         print(f"[ANÁLISE] {filename} →", analysis)
 
-        # Opcional: salvar metadados/descrição
         update_description(url, filename, analysis)
 
         results.append(analysis)

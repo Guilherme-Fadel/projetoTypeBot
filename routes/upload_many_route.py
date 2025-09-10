@@ -1,6 +1,10 @@
 from flask import Blueprint, request, jsonify
 import requests
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 upload_many_bp = Blueprint('upload_many_bp', __name__)
 
@@ -43,6 +47,7 @@ def upload_many_to_s3():
             json={"links": url_json},
             timeout=120
         )
+        logger.info(url_json)
         print(jsonify(response.json()), response.status_code)
         return jsonify(response.json()), response.status_code
 

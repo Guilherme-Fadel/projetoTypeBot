@@ -1,0 +1,93 @@
+[
+  {
+    "nome": "tela_de_profissional.png",
+    "descricao": "Tela de cadastro de profissional com campos Conselho, Nome, Data de nascimento, Usuário, Senha, CPF, Sexo, Receitas e Grupo de usuário.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela_de_profissional.png"
+  },
+  {
+    "nome": "tela_de_login.png",
+    "descricao": "Tela de login, utilizada para realizar o login no sistema, utilizando usuário e senha, com a possibiliade de alterar a senha caso tenha esquecido a senha, essa alteração é configurada em parâmetros gerais, onde se pode realizar a configuração de tempo, método de recuperar senha, bloqueios, etc...",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela_de_login.png"
+  },
+  {
+    "nome": "tela-modulos.png",
+    "descricao": "A tela principal do sistema MKData MKSaúde exibe à esquerda uma barra de navegação com uma lista extensa de módulos organizados verticalmente, como Prontuários, Configuração de SMTP, Impressão de Prontuário e Trilha de Auditoria, enquanto à direita apresenta a seção “Últimos Acessos”, que mostra registros detalhados de login com data, hora e status de cada tentativa, permitindo ao usuário acessar rapidamente funcionalidades administrativas e clínicas e acompanhar a atividade recente no sistema.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-modulos.png"
+  },
+  {
+    "nome": "tela-cad-relatorio-1.png",
+    "descricao": "A tela exibida pertence ao módulo “Cad. Relatórios” do sistema MKData MKSaúde, versão 25.05.14-17, e apresenta uma interface voltada para o gerenciamento de relatórios diversos, onde é possível visualizar uma lista organizada onde cada relatório da lista acompanha por informações como grupo, status de exportação, status de atividade e ID, além de botões para alterar ou excluir os registros, permitindo ao usuário administrar relatórios relacionados a agendamentos, atendimentos médicos, exames, estatísticas, estoque e finanças de forma centralizada e eficiente. Essa é a unica tela onde se pode acessar para cadastrar relatórios, não é possível em outras telas.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-cad-relatorio-1.png"
+  },
+  {
+    "nome": "tela-alterar-criar-relatorio.png",
+    "descricao": "Essa tela corresponde à interface de edição ou criação de relatórios no sistema MKData MKSaúde, onde o usuário pode configurar todos os detalhes de um relatório específico, como o nome, o descritivo, o tipo (neste caso, “Relatório”), o arquivo associado (.FR3), o formato de saída e se o relatório está ativo, além de definir parâmetros personalizados como data e consultórios, com base em instruções SQL, e também selecionar os perfis de acesso que terão permissão para visualizar ou executar o relatório, sendo finalizada com os botões “Gravar” e “Cancelar” para salvar ou descartar as alterações feitas.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-alterar-criar-relatorio.png"
+  },
+  {
+    "nome": "tela-criar-agenda.png",
+    "descricao": "Essa tela é onde você poderá exclusivamente, criar, excluir e editar agendas de um profissional, ",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-criar-agenda.png"
+  },
+  {
+    "nome": "tela-de-faturamento",
+    "descricao": "Tela onde se realiza a criação dos faturamentos da clinica, onde o financeiro pode realizar o controle e manutenção de dados de guias, e valores cobrados em consultas ou exames.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-de-faturamento"
+  },
+  {
+    "nome": "tela-criar-alterar-consultorio",
+    "descricao": "Tela de consultório, onde você conseguirá alterar ou criar um novo consultorio, tem diversos parâmetros e opções para serem preenchidas, na lateral esquerda da tela, tem subtelas onde você pode preencher ou visualizar as informações referentes a elas.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-criar-alterar-consultorio"
+  },
+  {
+    "nome": "tela-type-bot-teste",
+    "descricao": "Tela relacionada a utilização do type bot.",
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-type-bot-teste"
+  },
+  {
+    "nome": "tela-modulos.png",
+    "descricao": "Tela de configurações do sistema MKData MKSaúde",
+    "topicos": [],
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/tela-modulos.png"
+  },
+  {
+    "nome": "Adobe_Scan_22_de_ago._de_2025%20(5).pdf",
+    "descricao": "Documento de apresentação da clínica Pulmonar, contendo informações de contato e especialidades",
+    "topicos": [],
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/Adobe_Scan_22_de_ago._de_2025%20(5).pdf"
+  },
+  {
+    "nome": "doc_337055441.pdf",
+    "descricao": "Decisão do Tribunal de Justiça do Estado de São Paulo, Comarca de Santa Bárbara d'Oeste, determinando a emenda da inicial em processo de Reconhecimento e Extinção de União Estável.",
+    "topicos": [],
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/doc_337055441.pdf"
+  },
+  {
+    "nome": "08cb727a-c799-436d-9d74-b6c5bf68204d.pdf",
+    "descricao": "Relatório de movimento de estoque com detalhes de entrada de medicamento",
+    "tópicos": [],
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/08cb727a-c799-436d-9d74-b6c5bf68204d.pdf"
+  },
+  {
+    "nome": "Pedido%20n.%20023-2025%20(Nathalia%20De%20Almeida%20).pdf",
+    "descricao": "Contrato de prestação de serviços turísticos entre BWTURISMO e Nathalia De Almeida para um pacote de 4 dias de passeios em praias de Alagoas.",
+    "tópicos": [
+      {
+        "name": "Serviços Contratados",
+        "description": "Pacote de 4 dias de passeios em praias de Alagoas",
+        "content": "Pacote inclui transporte exclusivo, acompanhamento de guia, transfer de chegada e retorno ao Aeroporto de Maceió, com flexibilidade de horários. Roteiro previsto para 4 dias, com passeios em diferentes praias e piscinas naturais."
+      },
+      {
+        "name": "Pagamento",
+        "description": "Detalhes do pagamento do pacote turístico",
+        "content": "Valor total do pacote: R$2.781,00. Recebido no ato da reserva: R$309,00. Valor restante a ser pago: R$2.472,00 (R$556,20 por pessoa). Formas de pagamento aceitas: Pix, dinheiro, cartão de débito ou crédito."
+      },
+      {
+        "name": "Cláusulas Contratuais",
+        "description": "Obrigações das partes e condições de cancelamento",
+        "content": "Cláusulas definem obrigações da contratada (BWTURISMO) e do contratante (Nathalia De Almeida), incluindo fornecimento de serviços, pagamento, cancelamento e reembolso. Condições de cancelamento e reembolso variam de acordo com a antecedência do cancelamento."
+      }
+    ],
+    "url": "https://typebotstorage-mkteste.s3.us-east-1.amazonaws.com/Pedido%20n.%20023-2025%20(Nathalia%20De%20Almeida%20).pdf"
+  }
+]
