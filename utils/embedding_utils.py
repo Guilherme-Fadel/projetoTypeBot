@@ -19,7 +19,7 @@ s3 = boto3.client(
     region_name=os.getenv('AWS_REGION')
 )
 
-def carregar_base(pasta_textos="data/textos", bucket=None, key_imagens="images/imagens.json"):
+def carregar_base(bucket=None, key_imagens="images/imagens.json"):
     if bucket is None:
         bucket = os.getenv("S3_BUCKET")
 

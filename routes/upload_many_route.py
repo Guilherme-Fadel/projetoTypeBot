@@ -64,7 +64,7 @@ def upload_many_to_s3():
 
             result = upload_file_to_s3(file_url, file_name)
             if result.get("success"):
-                desc_result = update_description(file_url, file_name, file_info)
+                desc_result = update_description(file_name, file_info)
                 if desc_result.get("success"):
                     uploaded_files.append(desc_result['file'])
                 else:

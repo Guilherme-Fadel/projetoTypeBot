@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 from services.file_analyzer import analyze_file
-from services.data_uploader import update_description
 from urllib.parse import urlparse
 import os
 

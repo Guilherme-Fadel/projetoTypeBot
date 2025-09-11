@@ -1,3 +1,4 @@
+'''Serviço para converter PDFs em imagens PNG e analisar com Scout
 import os
 import tempfile
 import requests
@@ -26,3 +27,4 @@ def analisar_pdf_com_scout(url_pdf: str, pergunta: str = "Descreva essa imagem d
     caminho_pdf = baixar_pdf(url_pdf)
     imagens_png = converter_pdf_para_png(caminho_pdf)
     return imagens_png
+'''

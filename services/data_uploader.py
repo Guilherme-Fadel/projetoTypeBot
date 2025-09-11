@@ -2,7 +2,7 @@ import json
 import os
 import boto3
 
-def update_description(file_url: str, file_name: str, analysis: str):
+def update_description(file_name: str, analysis: str):
     try:
         s3 = boto3.client(
             's3',
@@ -42,9 +42,13 @@ def update_description(file_url: str, file_name: str, analysis: str):
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+''' 
+Função de ordenação de tópicos (Resolver depois)
+
 def ordenar_topico(topico):
     return {
         "name": topico.get("name", ""),
         "description": topico.get("description", ""),
         "content": topico.get("content", "")
     }
+'''

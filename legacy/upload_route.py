@@ -1,3 +1,5 @@
+''' Rota legada para upload de arquivos para S3
+
 from flask import Blueprint, request, jsonify
 from services.s3_uploader import upload_file_to_s3
 from services.data_uploader import update_description
@@ -15,7 +17,7 @@ def upload_to_s3():
         return jsonify({'error': 'URL do arquivo não fornecida'}), 400
 
     result = upload_file_to_s3(file_url, file_name)
-    description = update_description(file_url, file_name, file_description)
+    description = update_description(file_name, file_description)
 
     if result.get("success") and description.get("success"):
         return jsonify({
@@ -26,5 +28,5 @@ def upload_to_s3():
             return jsonify({
                 'error': result.get('error', 'Erro desconhecido')
             }), 500
-
+'''
     
