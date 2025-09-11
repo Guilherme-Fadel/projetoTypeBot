@@ -3,6 +3,7 @@ import json
 import boto3
 import logging
 from sentence_transformers import SentenceTransformer, util
+from services.groq_client import chamar_llama
 from dotenv import load_dotenv
 
 logging.basicConfig(level=logging.INFO)
@@ -24,18 +25,21 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
         bucket = os.getenv("S3_BUCKET")
 
     base = []
+    logger.info(f"Carregando base de conhecimento do bucket '{bucket}', chave '{key_imagens}'")
 
     try:
         file_obj = s3.get_object(Bucket=bucket, Key=key_imagens)
         imagens = json.loads(file_obj["Body"].read().decode("utf-8"))
+        logger.info(f"{len(imagens)} registros encontrados no JSON")
+
         for item in imagens:
             descricao = item.get("descricao", "")
             url = item.get("url", "")
             nome = item.get("nome", "")
             topicos = item.get("tópicos", [])
-            emb = model.encode(descricao, convert_to_tensor=True, normalize_embeddings=True) 
-                #convert_to_tensor retorna como um tensor do Pytorch
-                #normalize_embeddings normaliza o vetor para unitario, possibilitando a utilização de similaridade por cosseno.
+            logger.debug(f"Processando imagem: {nome}")
+
+            emb = model.encode(descricao, convert_to_tensor=True, normalize_embeddings=True)
 
             base.append({
                 "tipo": "imagem",
@@ -45,75 +49,85 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
                 "tópicos": topicos,
                 "embedding": emb
             })
+
     except s3.exceptions.NoSuchKey:
         logger.warning(f"Arquivo '{key_imagens}' não encontrado no bucket '{bucket}'.")
 
+    except Exception as e:
+        logger.exception(f"Erro ao carregar base: {str(e)}")
+
     return base
-
-def normalizar_topico(topico):
-
-    #Converte um tópico em string para o embedding.
-
-    if isinstance(topico, dict):
-        partes = []
-        if "name" in topico:
-            partes.append(topico["name"])
-        if "description" in topico:
-            partes.append(topico["description"])
-        if "content" in topico:
-            partes.append(topico["content"])
-        return " | ".join(partes)
-
-    if isinstance(topico, list):
-        return " | ".join(normalizar_topico(t) for t in topico if t)
-
-    if isinstance(topico, str):
-        return topico
-
-    return str(topico)
 
 
 def buscar_texto_e_imagem(pergunta, base):
+    logger.info(f"Buscando imagem mais relevante para a pergunta: '{pergunta}'")
     emb_pergunta = model.encode(pergunta, convert_to_tensor=True, normalize_embeddings=True)
 
-    logger.info(f"Pergunta recebida: {pergunta}")
-    # Seleciona top3
     imagens_scores = []
     for item in base:
         if item["tipo"] == "imagem":
             score = util.cos_sim(emb_pergunta, item["embedding"]).item()
             imagens_scores.append((item, score))
-            logger.info(f"   → Similaridade com '{item['arquivo']}': {score:.4f}")
+            logger.debug(f"Similaridade com '{item['arquivo']}': {score:.4f}")
 
-    # Ordenar e pegar top3
     imagens_scores.sort(key=lambda x: x[1], reverse=True)
-    top3 = imagens_scores[:3]
+    top3 = [img for img, _ in imagens_scores[:3]]
 
-    logger.info("Top 3 imagens (descrição):")
-    for i, (img, sc) in enumerate(top3, start=1):
-        logger.info(f"   {i}. {img['arquivo']} (score={sc:.4f})")
+    logger.info(f"Top 3 candidatos: {[img['arquivo'] for img in top3]}")
 
     if not top3:
+        logger.warning("Nenhum candidato encontrado")
         return None
 
-    # Selecionar melhor tópico dentre os top3
-    melhor_topico = None
-    melhor_score_topico = float("-inf")
-    melhor_imagem = None
+    return selecionar_por_ia(pergunta, top3)
 
-    for img, _ in top3:
-        for topico in img.get("tópicos", []):
-            texto_topico = normalizar_topico(topico)
-            emb_topico = model.encode(texto_topico, convert_to_tensor=True, normalize_embeddings=True)
-            score_topico = util.cos_sim(emb_pergunta, emb_topico).item()
-            logger.info(f"      → Tópico '{texto_topico}' em '{img['arquivo']}': {score_topico:.4f}")
 
-            if score_topico > melhor_score_topico:
-                melhor_score_topico = score_topico
-                melhor_topico = topico
-                melhor_imagem = img
+def selecionar_por_ia(pergunta: str, candidatos: list):
+    logger.info("Enviando candidatos para IA escolher o mais relevante")
+    prompt = f"""
+Você é um assistente semântico. Abaixo estão três objetos visuais com descrição e tópicos extraídos.
 
-    logger.info(f"Melhor tópico: {melhor_topico} (score={melhor_score_topico:.4f})")
-    logger.info(f"Imagem escolhida: {melhor_imagem['arquivo']}")
+Sua tarefa é escolher o objeto mais relevante para responder à pergunta: "{pergunta}"
 
-    return melhor_imagem
+Responda com o nome do arquivo mais relevante, e justifique brevemente sua escolha.
+
+Formato de resposta:
+{{
+  "arquivo": "nome_do_arquivo_mais_relevante",
+  "justificativa": "..."
+}}
+
+Objetos:
+"""
+
+    for i, item in enumerate(candidatos, start=1):
+        prompt += f"\nObjeto {i}:\n"
+        prompt += f"Arquivo: {item['arquivo']}\n"
+        prompt += f"Descrição: {item['texto']}\n"
+        prompt += f"Tópicos:\n"
+        for topico in item.get("tópicos", []):
+            prompt += f"  - {json.dumps(topico, ensure_ascii=False)}\n"
+
+    logger.debug(f"Prompt enviado à IA:\n{prompt}")
+
+    try:
+        resposta = chamar_llama(prompt)
+        logger.debug(f"Resposta da IA:\n{resposta}")
+
+        resultado = json.loads(resposta)
+        nome = resultado.get("arquivo")
+        logger.info(f"IA escolheu o arquivo: {nome}")
+
+        for item in candidatos:
+            logger.debug(f"Comparando '{item['arquivo']}' com '{nome}'")
+            if item["arquivo"] == nome:
+                logger.info(f"Arquivo selecionado: {item['arquivo']}")
+                return item
+
+        logger.warning(f"Arquivo '{nome}' não encontrado entre os candidatos")
+
+    except Exception as e:
+        logger.exception("Erro ao interpretar resposta da IA")
+
+    logger.warning("Fallback ativado: retornando primeiro candidato")
+    return candidatos[0]
