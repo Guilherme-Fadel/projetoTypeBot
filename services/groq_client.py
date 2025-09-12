@@ -10,6 +10,7 @@ session.headers.update({
     "Content-Type": "application/json",
 })
 
+
 def chamar_llama(prompt: str) -> str:
     payload = {
         "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
@@ -17,13 +18,14 @@ def chamar_llama(prompt: str) -> str:
             {"role": "system", "content": "Você é um assistente útil e direto."},
             {"role": "user", "content": prompt},
         ],
-        "temperature": 0.2,
-        "max_tokens": 512,
+        "temperature": 0.0,
+        "max_tokens": 2048,
     }
     resp = session.post(GROQ_URL, json=payload, timeout=30)
     resp.raise_for_status()
     data = resp.json()
     return str(data["choices"][0]["message"]["content"]).strip()
+
 
 def chamar_llama_scout(pergunta: str, imagem_url: str) -> str:
     payload = {
@@ -37,12 +39,11 @@ def chamar_llama_scout(pergunta: str, imagem_url: str) -> str:
                 ]
             }
         ],
-        "temperature": 0.2,
-        "max_tokens": 512
+        "temperature": 0.0,
+        "max_tokens": 2048
     }
 
     resp = session.post(GROQ_URL, json=payload, timeout=30)
     resp.raise_for_status()
     data = resp.json()
     return str(data["choices"][0]["message"]["content"]).strip()
-
