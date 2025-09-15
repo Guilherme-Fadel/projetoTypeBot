@@ -11,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-model = SentenceTransformer('all-mpnet-base-v2')
-
+model = SentenceTransformer('intfloat/multilingual-e5-large')
 s3 = boto3.client(
     's3',
     aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
@@ -20,17 +19,15 @@ s3 = boto3.client(
     region_name=os.getenv('AWS_REGION')
 )
 
+
 def carregar_base(bucket=None, key_imagens="images/imagens.json"):
     if bucket is None:
         bucket = os.getenv("S3_BUCKET")
 
     base = []
-    logger.info(f"Carregando base de conhecimento do bucket '{bucket}', chave '{key_imagens}'")
+    logger.info(
+        f"Carregando base de conhecimento do bucket '{bucket}', chave '{key_imagens}'")
 
-    # Troque aqui se quiser outro modelo (e5 é bem melhor que mpnet)
-    model = SentenceTransformer("intfloat/multilingual-e5-large")
-
-    # Dicionário de sinônimos para reforçar semântica
     substituicoes = {
         "médico": "médico doutor profissional de saúde clínico",
         "profissional": "profissional colaborador funcionário trabalhador médico doutor",
@@ -61,7 +58,8 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
                     texto_embedding += " " + sinonimos
 
             logger.debug(f"Processando imagem: {nome}")
-            emb = model.encode(texto_embedding, convert_to_tensor=True, normalize_embeddings=True)
+            emb = model.encode(
+                texto_embedding, convert_to_tensor=True, normalize_embeddings=True)
 
             base.append({
                 "tipo": "imagem",
@@ -73,7 +71,8 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
             })
 
     except s3.exceptions.NoSuchKey:
-        logger.warning(f"Arquivo '{key_imagens}' não encontrado no bucket '{bucket}'.")
+        logger.warning(
+            f"Arquivo '{key_imagens}' não encontrado no bucket '{bucket}'.")
 
     except Exception as e:
         logger.exception(f"Erro ao carregar base: {str(e)}")
@@ -81,10 +80,11 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
     return base
 
 
-
 def buscar_texto_e_imagem(pergunta, base):
-    logger.info(f"Buscando imagem mais relevante para a pergunta: '{pergunta}'")
-    emb_pergunta = model.encode(pergunta, convert_to_tensor=True, normalize_embeddings=True)
+    logger.info(
+        f"Buscando imagem mais relevante para a pergunta: '{pergunta}'")
+    emb_pergunta = model.encode(
+        pergunta, convert_to_tensor=True, normalize_embeddings=True)
 
     imagens_scores = []
     for item in base:
