@@ -27,6 +27,19 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
     base = []
     logger.info(f"Carregando base de conhecimento do bucket '{bucket}', chave '{key_imagens}'")
 
+    # Troque aqui se quiser outro modelo (e5 é bem melhor que mpnet)
+    model = SentenceTransformer("intfloat/multilingual-e5-large")
+
+    # Dicionário de sinônimos para reforçar semântica
+    substituicoes = {
+        "médico": "médico doutor profissional de saúde clínico",
+        "profissional": "profissional colaborador funcionário trabalhador médico doutor",
+        "paciente": "paciente cliente pessoa atendida indivíduo usuário",
+        "consultório": "consultório clínica sala de atendimento local de saúde",
+        "exame": "exame procedimento diagnóstico teste",
+        "convênio": "convênio plano de saúde seguro saúde",
+    }
+
     try:
         file_obj = s3.get_object(Bucket=bucket, Key=key_imagens)
         imagens = json.loads(file_obj["Body"].read().decode("utf-8"))
@@ -37,14 +50,23 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
             url = item.get("url", "")
             nome = item.get("nome", "")
             topicos = item.get("tópicos", [])
-            logger.debug(f"Processando imagem: {nome}")
 
-            emb = model.encode(descricao, convert_to_tensor=True, normalize_embeddings=True)
+            texto_embedding = f"{nome} {descricao} "
+            for topico in topicos:
+                texto_embedding += f"{topico.get('name', '')} {topico.get('description', '')} {topico.get('content', '')} "
+
+            texto_lower = texto_embedding.lower()
+            for termo, sinonimos in substituicoes.items():
+                if termo in texto_lower:
+                    texto_embedding += " " + sinonimos
+
+            logger.debug(f"Processando imagem: {nome}")
+            emb = model.encode(texto_embedding, convert_to_tensor=True, normalize_embeddings=True)
 
             base.append({
                 "tipo": "imagem",
                 "arquivo": nome,
-                "texto": descricao,
+                "texto": texto_embedding,
                 "imagem": url,
                 "tópicos": topicos,
                 "embedding": emb
@@ -57,6 +79,7 @@ def carregar_base(bucket=None, key_imagens="images/imagens.json"):
         logger.exception(f"Erro ao carregar base: {str(e)}")
 
     return base
+
 
 
 def buscar_texto_e_imagem(pergunta, base):
