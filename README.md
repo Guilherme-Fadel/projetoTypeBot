@@ -16,7 +16,7 @@ O projeto foi desenvolvido como parte de estudos e prática em **APIs, NLP e int
 
 ## 📁 Estrutura do projeto
 
-
+```
 projetoTypeBot/
 │── app.py # Arquivo principal que inicia a aplicação
 │── requirements.txt # Dependências do Python
@@ -25,7 +25,7 @@ projetoTypeBot/
 ├── routes/ # Define as rotas de API
 ├── services/ # Serviços e integrações (embeddings, Typebot etc.)
 └── utils/ # Funções utilitárias
-
+```
 
 -----------------------------------------------------------------------------------------------------------
 
