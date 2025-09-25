@@ -6,7 +6,7 @@
 
 -----------------------------------------------------------------------------------------------------------
 
-## 🔍 Descrição
+## Descrição
 
 `projetoTypeBot` é uma aplicação em Python que integra **embeddings** com o **Typebot**, permitindo a criação de fluxos inteligentes de chatbot e processamento de linguagem natural (NLP).  
 
@@ -14,7 +14,7 @@ O projeto foi desenvolvido como parte de estudos e prática em **APIs, NLP e int
 
 -----------------------------------------------------------------------------------------------------------
 
-## 📁 Estrutura do projeto
+## Estrutura do projeto
 
 ```
 projetoTypeBot/
@@ -29,7 +29,7 @@ projetoTypeBot/
 
 -----------------------------------------------------------------------------------------------------------
 
-## ⚙️ Pré-requisitos
+## Pré-requisitos
 
 Antes de rodar localmente, você vai precisar:
 
@@ -40,7 +40,7 @@ Antes de rodar localmente, você vai precisar:
 
 -----------------------------------------------------------------------------------------------------------
 
-## 🚀 Como executar
+## Como executar
 
 ```
 # clonar o repositório
@@ -67,9 +67,9 @@ python app.py
 -----------------------------------------------------------------------------------------------------------
 Após rodar, o servidor estará disponível em:
 
-👉 http://localhost:5000
+http://localhost:5000
 
-⚠️ Importante: Para que o Typebot consiga acessar o servidor, ele precisa estar hospedado na web.
+Importante: Para que o Typebot consiga acessar o servidor, ele precisa estar hospedado na web.
 No projeto, está sendo utilizado o ngrok
  para simular essa funcionalidade:
 
@@ -92,11 +92,11 @@ Dependências principais:
 
 Funcionalidades
 
-✔️ Geração e consulta de embeddings
-✔️ Integração com Typebot
-✔️ API REST para interações externas
-✔️ Utilitários para processamento de texto
-✔️ Hospedagem simulada via ngrok
+ - Geração e consulta de embeddings
+ - Integração com Typebot
+ - API REST para interações externas
+ - Utilitários para processamento de texto
+ - Hospedagem simulada via ngrok
 -----------------------------------------------------------------------------------------------------------
 Exemplo de uso
 
