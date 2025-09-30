@@ -91,24 +91,24 @@ def buscar_texto_e_imagem(pergunta, base):
         if item["tipo"] == "imagem":
             score = util.cos_sim(emb_pergunta, item["embedding"]).item()
             imagens_scores.append((item, score))
-            logger.debug(f"Similaridade com '{item['arquivo']}': {score:.4f}")
+            logger.info(f"Similaridade com '{item['arquivo']}': {score:.4f}")
 
     imagens_scores.sort(key=lambda x: x[1], reverse=True)
-    top3 = [img for img, _ in imagens_scores[:3]]
+    top10 = [img for img, _ in imagens_scores[:10]]
 
-    logger.info(f"Top 3 candidatos: {[img['arquivo'] for img in top3]}")
+    logger.info(f"Top 3 candidatos: {[img['arquivo'] for img in top10]}")
 
-    if not top3:
+    if not top10:
         logger.warning("Nenhum candidato encontrado")
         return None
 
-    return selecionar_por_ia(pergunta, top3)
+    return selecionar_por_ia(pergunta, top10)
 
 
 def selecionar_por_ia(pergunta: str, candidatos: list):
     logger.info("Enviando candidatos para IA escolher o mais relevante")
     prompt = f"""
-Você é um assistente semântico. Abaixo estão três objetos visuais com descrição e tópicos extraídos.
+Você é um assistente semântico. Abaixo estão dez objetos visuais com descrição e tópicos extraídos.
 
 Sua tarefa é escolher o objeto mais relevante para responder à pergunta: "{pergunta}"
 
